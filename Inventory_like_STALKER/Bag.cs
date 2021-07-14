@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Inventory_like_STALKER
 {
-    class Bag : IBag
+    class Bag : IBag // реализация сумки
     {
-        private int _w;
-        private int _h;
-        private List<LocalThing> _stuff;
-        private List<LocalThing[]> _field;
+        private int _w; // ширина в клетках
+        private int _h; // высота в клетках
+        private List<LocalThing> _stuff; // список всех вещей
+        private List<LocalThing[]> _field; // список строк сумки (должен содержать, возможно, в каждой клетке ссылку? не уверена)
 
         public int Width { get { return _w; } }
         public int Height { get { return _h; } }
         public List<LocalThing> Stuff { get { return _stuff; } }
         public List<LocalThing[]> Field { get { return _field; } }
         
-        //
-        public Bag(int w, int h)
+        
+        public Bag(int w, int h) // конструктор пустой сумки
         {
             if (w <= 0 || h <= 0)
             { w = 1; h = 1; }
@@ -27,20 +27,22 @@ namespace Inventory_like_STALKER
             _w = w;
             _h = h;
 
-            _field = new List<LocalThing[]>(_h);
-            for (int i = 0; i < _field.Count; i++)
+            _stuff = new List<LocalThing>();
+
+            _field = new List<LocalThing[]>();
+            for (int i = 0; i < _h; i++)
             {
-                _field[i] = new LocalThing[w];
+                _field.Add(new LocalThing[_w]);
             }
         }
 
 
-        public bool PutThing(LocalThing newThing)
+        public bool PutThing(LocalThing newThing) // (пока не реализовано) метод, который кладёт новую вещь в определённой позиции
         {
             return false;
         }
 
-        public bool CanPutThing(LocalThing newThing)
+        public bool CanPutThing(LocalThing newThing) // (не помню, всё ли окей) метод, который проверяет, можно ли положить вещь вот так
         {
             bool[][] shape = newThing.Thing.Mask.Area;
             byte rot = newThing.Rot;
@@ -71,7 +73,7 @@ namespace Inventory_like_STALKER
             return !fail;
         }
 
-        public LocalThing TouchThing(int loc_x, int loc_y)
+        public LocalThing TouchThing(int loc_x, int loc_y) // отдаёт ссылку на вещь по координате
         {
             if (loc_x < 0 || loc_y < 0 || loc_x>=_w || loc_y>=_h) // отсеивание некорректных позиций
                 return null;
@@ -85,7 +87,7 @@ namespace Inventory_like_STALKER
             return null;
         }
 
-        public LocalThing TakeThing(int loc_x, int loc_y)
+        public LocalThing TakeThing(int loc_x, int loc_y) // (надо обдумать) метод для вытаскивания вещей из сумки
         {
             LocalThing taken = TouchThing(loc_x, loc_y);
             if (taken == null)
@@ -138,6 +140,7 @@ namespace Inventory_like_STALKER
                 for (int j = 0; j < _field[0].Length; j++)
                     if (_field[i][j].Equals(thing))
                         _field[i][j] = null;
+            // my test new comment
                 
             _stuff.Remove(thing);
         }

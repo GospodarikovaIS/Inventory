@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Inventory_like_STALKER
 {
-    class SimpleThing : IThing
+    class SimpleThing : IThing // реализация простенькой вещи
     {
-        private string _name;
-        private string _type;
-        private double _weight;
-        private int _cost;
-        private Shape _mask;
+        private string _name; // наименование
+        private string _type; // тип вещи (возможно, лучше енум)
+        private double _weight; // значение веса
+        private int _cost; // стоимость
+        private Shape _mask; // маска, содержащая форму предмета
         
         public string Name { get { return _name; } }
         public string Type { get { return _type; } }
@@ -20,13 +20,14 @@ namespace Inventory_like_STALKER
         public int Cost { get { return _cost; } }
         public Shape Mask { get { return _mask; } }
 
+        // много загонных конструкторов
         public SimpleThing()
         {
-            _name = "";
-            _type = "";
-            _weight = 0;
-            _cost = 0;
-            _mask = new Shape();
+            SetName("");
+            SetType("");
+            SetWeight(0);
+            SetCost(0);
+            SetShape(new Shape());
         }
 
         public SimpleThing(string name, string type, double weight, int cost)
@@ -56,6 +57,7 @@ namespace Inventory_like_STALKER
             SetShape(mask);
         }
 
+        // сеттеры приватного характера
         private void SetName(string name)
         { _name = name; }
         private void SetType(string type)
